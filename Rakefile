@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "jenkins_cap"
   gem.homepage = "http://github.com/Druwerd/jenkins_cap"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{adds Jenkins tasks to Capistrano}
+  gem.description = %Q{add Jenkins tasks to Capistrano}
   gem.email = "Druwerd@gmail.com"
   gem.authors = ["Dru Ibarra"]
   # dependencies defined in Gemfile
