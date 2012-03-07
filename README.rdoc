@@ -13,8 +13,8 @@ Include in your Capfile
 == Usage
 
 In your deploy.rb
-    set :jenkins_host, "http://cijoe.gnmedia.net"
-    set :jenkins_job_name, "AdOps3"
+    set :jenkins_host, "http://jenkins.example.com"
+    set :jenkins_job_name, "mybuild"
     
     before 'deploy', 'jenkinscap:build_check' # check if the revision has been built by Jenkins successfully
 
