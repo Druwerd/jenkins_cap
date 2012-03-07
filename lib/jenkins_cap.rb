@@ -1,4 +1,9 @@
 require 'json'
+require 'term/ansicolor'
+
+class String
+  include Term::ANSIColor
+end
 
 Capistrano::Configuration.instance(true).load do
 
@@ -13,6 +18,8 @@ Capistrano::Configuration.instance(true).load do
       builds = []
       json_results['builds'].each{|b| builds << b['number']}
       builds
+    rescue NoMethodError => e
+      puts "WARNING: #{e}".yellow
     end
 
     def get_revision_from_build(build_number)
@@ -21,6 +28,8 @@ Capistrano::Configuration.instance(true).load do
       revisions = [] 
       json_results['changeSet']['revisions'].each{|r| revisions << r['revision']}
       revisions.sort.last
+    rescue NoMethodError => e
+      puts "WARNING: #{e}".yellow
     end
 
     def build_has_current_revision?(build_number)
@@ -32,10 +41,14 @@ Capistrano::Configuration.instance(true).load do
     def build_passed?(build_number)
       json_results = json_request("#{jenkins_host}/job/#{jenkins_job_name}/#{build_number}/api/json")
       json_results['result'] == "SUCCESS"
+    rescue NoMethodError => e
+      puts "WARNING: #{e}".yellow
     end
 
     def revision_passed?()
       builds_list = get_builds()
+      return false if builds_list.nil?
+      
       builds_list.each do |build_number|
          if build_has_current_revision?(build_number) # check if build has the revision we care about
            return build_passed?(build_number)
@@ -51,7 +64,7 @@ Capistrano::Configuration.instance(true).load do
      desc "Check if this deployment as a good Jenkins build"
      task "build_check" do
        if (not jenkins.revision_passed?)
-          abort "\n\n\n\e[0;31m This revision #{current_revision} has not been built by Jenkins successfully!  \e[0m\n\n\n"
+          abort "\n\n\nThis revision #{current_revision} has not been built by Jenkins successfully!\n\n\n".red
        end
      end
   end
