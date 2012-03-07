@@ -31,14 +31,12 @@ Capistrano::Configuration.instance(true).load do
 
     def build_passed?(build_number)
       json_results = json_request("#{jenkins_host}/job/#{jenkins_job_name}/#{build_number}/api/json")
-      puts json_results['result']
       json_results['result'] == "SUCCESS"
     end
 
     def revision_passed?()
       builds_list = get_builds()
       builds_list.each do |build_number|
-         puts "checking #{build_number}"
          if build_has_current_revision?(build_number) # check if build has the revision we care about
            return build_passed?(build_number)
          end
