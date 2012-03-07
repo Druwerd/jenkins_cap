@@ -1,6 +1,22 @@
 = jenkins_cap
 
-Description goes here.
+Adds Jenkins tasks to Capistrano.
+
+== Installation
+
+    $ gem install jenkins_cap
+    
+Include in your Capfile
+    require 'rubygems'
+    require 'jenkins_cap'
+    
+== Usage
+
+In your deploy.rb
+    set :jenkins_host, "http://cijoe.gnmedia.net"
+    set :jenkins_job_name, "AdOps3"
+    
+    before 'deploy', 'jenkinscap:build_check'
 
 == Contributing to jenkins_cap
  
