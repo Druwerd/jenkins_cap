@@ -46,3 +46,6 @@ pkg
 
 # For rubinius:
 #*.rbc
+
+# Test settings file
+test/test_settings.yml
