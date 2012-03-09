@@ -8,7 +8,7 @@ class TestJenkinsCap < Test::Unit::TestCase
     @config.set :deploy_to, "/tmp"
     @config.set :jenkins_host, "http://cijoe.gnmedia.net"
     @config.set :jenkins_job_name, "puppet-dev-quick-test"
-    @config.set :current_revision, "1"
+    @config.set :revision, "1"
   end
   
   # Unit tests for helper functions
@@ -24,6 +24,16 @@ class TestJenkinsCap < Test::Unit::TestCase
   should "get a revision number (or nil) without error" do
      # no assertion here because can't be sure what we'll get from Jenkins
      @config.jenkins.get_revision_from_build("1")
+  end
+  
+  should "check if a build contains the revision number about to be deployed" do
+    # no assertion here because can't be sure what we'll get from Jenkins
+    @config.jenkins.build_has_revision?("1")
+  end
+  
+  should "check if a build passed" do
+     # no assertion here because can't be sure what we'll get from Jenkins
+     @config.jenkins.build_passed?("1")
   end
   
   # Unit tests for Capistrano tasks
