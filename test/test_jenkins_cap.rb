@@ -38,10 +38,14 @@ class TestJenkinsCap < Test::Unit::TestCase
      @config.jenkins.build_passed?(TEST_SETTINGS["build_number"])
   end
   
-  should "chekc if a revision passed" do
+  should "check if a revision passed" do
     # no assertion here because can't be sure what we'll get from Jenkins
     @config.jenkins.revision_passed?
   end
   
   # Unit tests for Capistrano tasks
+  should "run build_check task" do
+     # need a revision that will pass, otherwise the tests will abort
+     #@config.build_check
+  end
 end
