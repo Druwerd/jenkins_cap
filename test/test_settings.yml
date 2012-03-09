@@ -1,0 +1,5 @@
+app: localhost
+deploy_to: "/tmp"
+jenkins_host: "http://localhost"
+jenkins_job_name: "test_job"
+revision: "1"

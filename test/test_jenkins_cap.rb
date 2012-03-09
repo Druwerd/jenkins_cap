@@ -1,14 +1,16 @@
 require 'helper'
 
+TEST_SETTINGS = YAML.load_file(File.join(File.dirname(__FILE__), "test_settings.yml"))
+
 class TestJenkinsCap < Test::Unit::TestCase
   def setup
     @config = Capistrano::Configuration.new
     Capistrano::JenkinsCap.load_into(@config)
-    @config.role :app, "localhost"
-    @config.set :deploy_to, "/tmp"
-    @config.set :jenkins_host, "http://cijoe.gnmedia.net"
-    @config.set :jenkins_job_name, "puppet-dev-quick-test"
-    @config.set :revision, "1"
+    @config.role :app, TEST_SETTINGS["app"]
+    @config.set :deploy_to, TEST_SETTINGS["deploy_to"]
+    @config.set :jenkins_host, TEST_SETTINGS["jenkins_host"]
+    @config.set :jenkins_job_name, TEST_SETTINGS["jenkins_job_name"]
+    @config.set :revision, TEST_SETTINGS["revision"]
   end
   
   # Unit tests for helper functions
@@ -38,7 +40,7 @@ class TestJenkinsCap < Test::Unit::TestCase
   
   should "chekc if a revision passed" do
     # no assertion here because can't be sure what we'll get from Jenkins
-    @config.jenkins.revision_passed?
+    #@config.jenkins.revision_passed?
   end
   
   # Unit tests for Capistrano tasks
