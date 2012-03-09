@@ -16,7 +16,7 @@ In your deploy.rb
     set :jenkins_host, "http://jenkins.example.com"
     set :jenkins_job_name, "mybuild"
     
-    before 'deploy', 'jenkinscap:build_check' # check if the revision has been built by Jenkins successfully
+    before 'deploy', 'jenkins_cap:build_check' # check if the revision has been built by Jenkins successfully
 
 == Contributing to jenkins_cap
  

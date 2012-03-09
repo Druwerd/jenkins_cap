@@ -35,7 +35,7 @@ module Capistrano
 
     def build_has_revision?(build_number)
       build_revision = get_revision_from_build(build_number)
-      puts build_revision
+      #puts build_revision
       build_revision.to_i == revision.to_i
     end
 
@@ -60,19 +60,20 @@ module Capistrano
     
     def self.load_into(configuration)
       configuration.load do
-        desc "Check if this deployment as a good Jenkins build"
-         task "build_check" do
-           if (not jenkins.revision_passed?)
-              abort "\n\n\nThis revision #{revision} has not been built by Jenkins successfully!\n\n\n".red
-           end
-         end
-      end
-    end
-  end
+        namespace :jenkins_cap do
+           desc "Check if this deployment as a good Jenkins build"
+           task "build_check" do
+             abort "\n\n\nThis revision #{revision} has not been built by Jenkins successfully!\n\n\n".red unless jenkins.revision_passed?
+           end # end of task
+        end # end of namespace
+      end # end of configuration.load
+    end # end of def self.load_into
+    
+  end # end of JenkinsCap module
 
   Capistrano.plugin :jenkins, JenkinsCap
 
-end
+end # end of Capistrano module
 
 if Capistrano::Configuration.instance
   Capistrano::JenkinsCap.load_into(Capistrano::Configuration.instance)

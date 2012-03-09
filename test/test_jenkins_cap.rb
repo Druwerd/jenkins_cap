@@ -46,6 +46,6 @@ class TestJenkinsCap < Test::Unit::TestCase
   # Unit tests for Capistrano tasks
   should "run build_check task" do
      # need a revision that will pass, otherwise the tests will abort
-     #@config.build_check
+     #@config.jenkins_cap.build_check
   end
 end
