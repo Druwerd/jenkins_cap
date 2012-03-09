@@ -1,13 +1,14 @@
 require 'json'
 require 'term/ansicolor'
+require 'capistrano'
 
 class String
   include Term::ANSIColor
 end
 
-Capistrano::Configuration.instance(true).load do
-
+module Capistrano
   module JenkinsCap
+    
     def json_request(url)
       response = `wget -q -O - #{url}`
       JSON.load(response)
@@ -32,10 +33,10 @@ Capistrano::Configuration.instance(true).load do
       puts "WARNING: #{e}".yellow
     end
 
-    def build_has_current_revision?(build_number)
+    def build_has_revision?(build_number)
       build_revision = get_revision_from_build(build_number)
       puts build_revision
-      build_revision.to_i == current_revision.to_i
+      build_revision.to_i == revision.to_i
     end
 
     def build_passed?(build_number)
@@ -50,23 +51,29 @@ Capistrano::Configuration.instance(true).load do
       return false if builds_list.nil?
       
       builds_list.each do |build_number|
-         if build_has_current_revision?(build_number) # check if build has the revision we care about
+         if build_has_revision?(build_number) # check if build has the revision we care about
            return build_passed?(build_number)
          end
       end
       false
     end
+    
+    def self.load_into(configuration)
+      configuration.load do
+        desc "Check if this deployment as a good Jenkins build"
+         task "build_check" do
+           if (not jenkins.revision_passed?)
+              abort "\n\n\nThis revision #{revision} has not been built by Jenkins successfully!\n\n\n".red
+           end
+         end
+      end
+    end
   end
 
   Capistrano.plugin :jenkins, JenkinsCap
 
-  namespace :jenkinscap do
-     desc "Check if this deployment as a good Jenkins build"
-     task "build_check" do
-       if (not jenkins.revision_passed?)
-          abort "\n\n\nThis revision #{current_revision} has not been built by Jenkins successfully!\n\n\n".red
-       end
-     end
-  end
+end
 
+if Capistrano::Configuration.instance
+  Capistrano::JenkinsCap.load_into(Capistrano::Configuration.instance)
 end
