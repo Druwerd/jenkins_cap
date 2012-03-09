@@ -36,5 +36,10 @@ class TestJenkinsCap < Test::Unit::TestCase
      @config.jenkins.build_passed?("1")
   end
   
+  should "chekc if a revision passed" do
+    # no assertion here because can't be sure what we'll get from Jenkins
+    @config.jenkins.revision_passed?
+  end
+  
   # Unit tests for Capistrano tasks
 end
