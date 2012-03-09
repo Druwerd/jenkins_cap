@@ -25,22 +25,22 @@ class TestJenkinsCap < Test::Unit::TestCase
   
   should "get a revision number (or nil) without error" do
      # no assertion here because can't be sure what we'll get from Jenkins
-     @config.jenkins.get_revision_from_build("1")
+     @config.jenkins.get_revision_from_build(TEST_SETTINGS["build_number"])
   end
   
   should "check if a build contains the revision number about to be deployed" do
     # no assertion here because can't be sure what we'll get from Jenkins
-    @config.jenkins.build_has_revision?("1")
+    @config.jenkins.build_has_revision?(TEST_SETTINGS["build_number"])
   end
   
   should "check if a build passed" do
      # no assertion here because can't be sure what we'll get from Jenkins
-     @config.jenkins.build_passed?("1")
+     @config.jenkins.build_passed?(TEST_SETTINGS["build_number"])
   end
   
   should "chekc if a revision passed" do
     # no assertion here because can't be sure what we'll get from Jenkins
-    #@config.jenkins.revision_passed?
+    @config.jenkins.revision_passed?
   end
   
   # Unit tests for Capistrano tasks
