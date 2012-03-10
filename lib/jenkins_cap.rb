@@ -64,6 +64,7 @@ module Capistrano
            desc "Check if this deployment as a good Jenkins build"
            task "build_check" do
              abort "\n\n\nThis revision #{revision} has not been built by Jenkins successfully!\n\n\n".red unless jenkins.revision_passed?
+             puts "\n Revision #{revision} has passed Jenkins tests.\n".green
            end # end of task
         end # end of namespace
       end # end of configuration.load
