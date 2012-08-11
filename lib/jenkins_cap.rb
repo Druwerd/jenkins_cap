@@ -35,8 +35,7 @@ module Capistrano
 
     def build_has_revision?(build_number)
       build_revision = get_revision_from_build(build_number)
-      revision = real_revision
-      revision != nil && build_revision.to_i == revision.to_i
+      real_revision != nil && build_revision.to_i == real_revision.to_i
     end
 
     def build_passed?(build_number)
@@ -63,8 +62,8 @@ module Capistrano
         namespace :jenkins_cap do
            desc "Check if this deployment as a good Jenkins build"
            task "build_check" do
-             abort "\n\n\nThis revision #{revision} has not been built by Jenkins successfully!\n\n\n".red unless jenkins.revision_passed?
-             puts "\n Revision #{revision} has passed Jenkins tests.\n".green
+             abort "\n\n\nThis revision #{real_revision} has not been built by Jenkins successfully!\n\n\n".red unless jenkins.revision_passed?
+             puts "\n Revision #{real_revision} has passed Jenkins tests.\n".green
            end # end of task
         end # end of namespace
       end # end of configuration.load
