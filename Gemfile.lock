@@ -13,7 +13,7 @@ GEM
       bundler (~> 1.0)
       git (>= 1.2.5)
       rake
-    json (1.6.5)
+    json (1.6.8)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
